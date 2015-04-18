@@ -43,9 +43,12 @@ INSTALLED_APPS = (
     'cspreports',
     'djangae.contrib.gauth',
     'djangae.contrib.security',
+    #LOCAL
+    'blog',
 )
 
 MIDDLEWARE_CLASSES = (
+    'google.appengine.ext.ndb.django_middleware.NdbDjangoMiddleware',
     'djangae.contrib.security.middleware.AppEngineSecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -77,6 +80,10 @@ SECURE_CHECKS = [
     "scaffold.checks.check_session_csrf_enabled",
     "scaffold.checks.check_csp_is_not_report_only"
 ]
+
+TEMPLATE_DIRS = (
+        os.path.join(BASE_DIR, 'templates'),
+    )
 
 CSP_REPORT_URI = reverse_lazy('report_csp')
 CSP_REPORTS_LOG = True

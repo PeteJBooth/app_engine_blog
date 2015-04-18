@@ -1,0 +1,16 @@
+<html>
+    <head>
+        <title>App Engine Blog</title>
+    </head>
+    <body>
+        <h1>{% block "main_heading" %}App Engine Blog{% endblock "main_heading" %}</h1>
+        {% if user_authenticated %}
+            Howdy {{ user_nick }}
+            <a href="{{ logout_url }}">logout</a>
+        {% else %}
+            <a href="{{ login_url }}">login</a>
+        {% endif %}
+        {% block "content" %}
+        {% endblock "content" %}
+    </body>
+</html>

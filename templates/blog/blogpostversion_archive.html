@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block "content" %}
+    {% for version in latest %}
+        <div>
+        <h2>{{ version.blog.title }}</h2>
+        {{ version.published }}
+        </div>
+    {% endfor %}
+{% endblock "content" %}
