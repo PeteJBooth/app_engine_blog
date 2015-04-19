@@ -1,11 +1,22 @@
 #THIRD PARTY
 from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import user_passes_test
+from django.utils.decorators import method_decorator
 from django.views.generic import ArchiveIndexView, DetailView, FormView, YearArchiveView, MonthArchiveView, DayArchiveView
 from google.appengine.api import users
 
 #LOCAL
 from .forms import BlogPostForm
 from .models import BlogPost,BlogPostVersion
+
+class AdminOnlyMixin(object):
+    """
+    Overrides the dispatch method of any implementing views to ensure only
+    Admin users have access.
+    """
+    @method_decorator(user_passes_test(lambda u: u.is_superuser))
+    def dispatch(self, *args, **kwargs):
+        return super(AdminOnlyMixin, self).dispatch(*args, **kwargs)
 
 
 class BlogPostIndexView(ArchiveIndexView):
@@ -40,7 +51,7 @@ class BlogPostDetailView(DetailView):
     model = BlogPost
 
 
-class BlogPostAddView(FormView):
+class BlogPostAddView(AdminOnlyMixin, FormView):
     form_class = BlogPostForm
     success_url = '/' #can override this on submit
     template_name = 'blog/blogpostversion_add.html'
@@ -49,6 +60,9 @@ class BlogPostAddView(FormView):
         user_cls = get_user_model()
         google_user = users.get_current_user()
 
+        #need to the associated Django object from the datastore 
+        #based on the unique id of the authenticated google user.
+        #TODO: Check if this breaks if a different auth model is used
         user = user_cls.objects.get(username=google_user.user_id())
 
         post = BlogPost(
