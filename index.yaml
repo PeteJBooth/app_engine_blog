@@ -20,6 +20,11 @@ indexes:
   properties:
   - name: public
   - name: published
+
+- kind: blog_blogpostversion
+  properties:
+  - name: public
+  - name: published
     direction: desc
 
 - kind: cspreports_cspreport

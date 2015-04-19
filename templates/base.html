@@ -7,8 +7,11 @@
         {% if user_authenticated %}
             Howdy {{ user_nickname }}
             <a href="{{ logout_url }}">logout</a>
+            {% if user_admin %}
+            <a href="{% url 'post_add' %}">Add post</a>
+            {% endif %}
         {% else %}
-            <a href="{{ login_url }}">login</a>
+            <a href="{{ login_url }"}>login</a>
         {% endif %}
         {% block "content" %}
         {% endblock "content" %}

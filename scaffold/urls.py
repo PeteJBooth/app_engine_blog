@@ -9,7 +9,7 @@ admin.autodiscover()
 urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'scaffold.views.home', name='home'),
-    url(r'^$', include('blog.urls')),
+    url(r'^', include('blog.urls')),
     url(r'^_ah/', include('djangae.urls')),
 
     # Note that by default this is also locked down with login:admin in app.yaml
