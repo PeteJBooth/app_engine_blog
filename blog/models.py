@@ -12,7 +12,8 @@ from djangae.contrib.gauth.models import GaeUser
 class PublicPostManager(models.Manager):
     """
     Custom manager to only return 'public' posts, i.e those that have a 
-    'public' version, and whose 'published' date is in the past.
+    'public' version, and whose 'published' date is in the past (future dates *should* 
+    be handled by the class based views)
     """
     def get_queryset(self):
         if False: #TODO if user is authenticated and marked as author
@@ -20,7 +21,7 @@ class PublicPostManager(models.Manager):
             return super(PublicPostManager, self).get_queryset()
         else:
             #return only public visible posts
-            return super(PublicPostManager, self).get_queryset().filter(public=True, published__lte=datetime.datetime.now())
+            return super(PublicPostManager, self).get_queryset().filter(public=True)
 
 
 class BlogPost(models.Model):
@@ -31,7 +32,7 @@ class BlogPost(models.Model):
 
     #fields
     title = models.CharField(max_length=500)
-    slug = models.SlugField()
+    slug = models.SlugField(max_length=100)
     author = models.ForeignKey(settings.AUTH_USER_MODEL,null=True)
 
 
@@ -49,7 +50,7 @@ class BlogPostVersion(models.Model):
     
     copy = models.TextField()
     public = models.BooleanField(default=False)
-    published = models.DateTimeField(default=None)
+    published = models.DateTimeField(default=datetime.datetime.now())
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 
