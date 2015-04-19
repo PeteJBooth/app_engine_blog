@@ -1,9 +1,22 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
     <head>
         <title>App Engine Blog</title>
+        <style>
+            body {
+                font-family: Helvetica, Arial, sans-serif;
+                font-size: 12px;
+                font-style: normal;
+                font-variant: normal;
+            }
+        </style>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
     </head>
     <body>
-        <h1>{% block "main_heading" %}App Engine Blog{% endblock "main_heading" %}</h1>
+        <h1><a href="/">{% block "main_heading" %}App Engine Blog{% endblock "main_heading" %}</a></h1>
         {% if user_authenticated %}
             Howdy {{ user_nickname }}
             <a href="{{ logout_url }}">logout</a>
@@ -11,9 +24,11 @@
             <a href="{% url 'post_add' %}">Add post</a>
             {% endif %}
         {% else %}
-            <a href="{{ login_url }"}>login</a>
+            <a href="{{ login_url }}">login</a>
         {% endif %}
+        <div class="container-fluid">
         {% block "content" %}
         {% endblock "content" %}
+        </div>
     </body>
 </html>

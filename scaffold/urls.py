@@ -11,7 +11,7 @@ urlpatterns = patterns('',
     # url(r'^$', 'scaffold.views.home', name='home'),
     url(r'^', include('blog.urls')),
     url(r'^_ah/', include('djangae.urls')),
-    url(r'^blah/', include('djangae.contrib.gauth.urls')),
+    url(r'^_ga/', include('djangae.contrib.gauth.urls')),
 
     # Note that by default this is also locked down with login:admin in app.yaml
     #url(r'^admin/', include(admin.site.urls)),
