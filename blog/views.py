@@ -1,9 +1,13 @@
 #THIRD PARTY
+from djangae.db import transaction
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import user_passes_test
+from django.core.urlresolvers import reverse
+from django.http import HttpResponseRedirect
 from django.utils.decorators import method_decorator
 from django.views.generic import ArchiveIndexView, DetailView, FormView, YearArchiveView, MonthArchiveView, DayArchiveView
 from google.appengine.api import users
+
 
 #LOCAL
 from .forms import BlogPostForm
@@ -49,6 +53,16 @@ class BlogPostDayView(DayArchiveView):
 
 class BlogPostDetailView(DetailView):
     model = BlogPost
+    context_object_name = 'post'
+
+    def post(self, request, *args, **kwargs):
+        #TODO: make this secure (and less hacky)
+        version = BlogPostVersion.objects.get(id=self.request.POST['version_id'])
+        version.blog.versions.update(public=False)
+        version.public = True
+        version.save()
+
+        return HttpResponseRedirect(reverse('post_detail',kwargs={'slug':version.blog.slug }))
 
 
 class BlogPostAddView(AdminOnlyMixin, FormView):

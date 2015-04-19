@@ -20,13 +20,14 @@ class Command(NoArgsCommand):
 
         for x in range(0,10):
             count = random.randint(3,10)
-            post = BlogPost(title=words(count,common=False), author=user)
+            post = BlogPost(title=words(count,common=False), author=user, slug=words(1,common=False))
             post.save()
 
             for x in range(0,3):
+                copy_as_p = "<p>{}</p>".format("</p><p>".join(paragraphs(5,common=False)))
                 v = BlogPostVersion(
                     blog = post,
-                    copy = paragraphs(5,common=False),
+                    copy = copy_as_p,
                     published=datetime.datetime.now())
                 v.save()
             #just make the last one added public

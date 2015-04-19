@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block "content" %}
+    <h2>{{ post.title }}</h2>
+      {% if user_authenticated and user_admin %}
+        {% for version in post.versions.all %}
+            {{ version.published }}<br>
+            {{ version.copy|safe }}<br>
+            {{ version.public }}<br>
+            {{ version.created }}<br>
+            {{ version.modified }}<br>
+            {% if not version.public %}
+                <form name="frm_publish_version" action="" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" value="{{ version.id }}" name="version_id">
+                    <input type="submit" value="Publish" >
+                </form>
+            {% endif %}
+            <hr>
+        {% endfor %}
+      {% endif %}
+{% endblock "content" %}

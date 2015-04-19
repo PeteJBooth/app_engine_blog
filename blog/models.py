@@ -4,6 +4,7 @@ import datetime
 #THIRD PARTY
 from django.conf import settings
 from django.db import models
+from google.appengine.api import users
 
 #LOCAL
 from djangae.contrib.gauth.models import GaeUser
@@ -16,7 +17,7 @@ class PublicPostManager(models.Manager):
     be handled by the class based views)
     """
     def get_queryset(self):
-        if False: #TODO if user is authenticated and marked as author
+        if users.is_current_user_admin():
             #return everything
             return super(PublicPostManager, self).get_queryset()
         else:

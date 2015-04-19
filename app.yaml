@@ -36,3 +36,4 @@ skip_files:
     - sitepackages/google_appengine*
     - \.storage.*
     - (.*)\.pyc
+    - .git*
