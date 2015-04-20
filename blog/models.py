@@ -36,6 +36,8 @@ class BlogPost(models.Model):
     slug = models.SlugField(max_length=100)
     author = models.ForeignKey(settings.AUTH_USER_MODEL,null=True)
 
+    def author_name(self):
+        return u'{} {}'.format(self.author.first_name, self.author.last_name)
 
 class BlogPostVersion(models.Model):
     """

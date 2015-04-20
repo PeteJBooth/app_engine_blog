@@ -18,6 +18,11 @@ indexes:
 
 - kind: blog_blogpostversion
   properties:
+  - name: blog_id
+  - name: public
+
+- kind: blog_blogpostversion
+  properties:
   - name: public
   - name: published
 

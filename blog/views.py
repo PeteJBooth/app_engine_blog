@@ -64,6 +64,13 @@ class BlogPostDetailView(DetailView):
 
         return HttpResponseRedirect(reverse('post_detail',kwargs={'slug':version.blog.slug }))
 
+    def get_context_data(self, **kwargs):
+        context = super(BlogPostDetailView, self).get_context_data(**kwargs)
+
+        #get the public version of the post
+        context['public_content'] = context['post'].versions.get(public=True)
+        context['private_content'] = context['post'].versions.exclude(public=True)
+        return context
 
 class BlogPostAddView(AdminOnlyMixin, FormView):
     form_class = BlogPostForm

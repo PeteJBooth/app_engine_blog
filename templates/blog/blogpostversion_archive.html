@@ -6,7 +6,7 @@
             <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
                 <img src="static/images/holding.jpg" style="width:100%">
                 <h2><a href="{% url 'post_detail' slug=version.blog.slug %}">{{ version.blog.title }}</a></h2>
-                <h3>{{version.blog.author.first_name }} {{version.blog.author.last_name }}</h3>
+                <h3>{{version.blog.author.author_name }}</h3>
                 {{ version.published }}
             </div>
         {% if forloop.counter|divisibleby:4 %}
