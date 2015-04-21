@@ -53,7 +53,7 @@ class BlogPostVersion(models.Model):
     
     copy = models.TextField()
     public = models.BooleanField(default=False)
-    published = models.DateTimeField(default=datetime.datetime.now())
+    published = models.DateTimeField(default=datetime.datetime.now(), verbose_name="Publish Date")
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 

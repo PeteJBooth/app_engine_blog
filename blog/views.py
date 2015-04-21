@@ -3,7 +3,7 @@ from djangae.db import transaction
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import user_passes_test
 from django.core.urlresolvers import reverse
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, Http404
 from django.utils.decorators import method_decorator
 from django.views.generic import ArchiveIndexView, DetailView, FormView, YearArchiveView, MonthArchiveView, DayArchiveView
 from google.appengine.api import users
@@ -68,7 +68,16 @@ class BlogPostDetailView(DetailView):
         context = super(BlogPostDetailView, self).get_context_data(**kwargs)
 
         #get the public version of the post
-        context['public_content'] = context['post'].versions.get(public=True)
+        try:
+            context['public_content'] = context['post'].versions.get(public=True)
+        except BlogPostVersion.DoesNotExist:
+            #if admin, this is ok display unbuplished content
+            if users.is_current_user_admin():
+                context['public_content'] = None
+            else:
+                #otherwise 404
+                raise Http404("Post does not exist")
+
         context['private_content'] = context['post'].versions.exclude(public=True)
         return context
 
