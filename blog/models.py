@@ -4,10 +4,10 @@ import datetime
 #THIRD PARTY
 from django.conf import settings
 from django.db import models
+from filer.fields.image import FilerImageField
 from google.appengine.api import users
 
 #LOCAL
-from djangae.contrib.gauth.models import GaeUser
 
 
 class PublicPostManager(models.Manager):
@@ -35,6 +35,7 @@ class BlogPost(models.Model):
     title = models.CharField(max_length=500)
     slug = models.SlugField(max_length=100)
     author = models.ForeignKey(settings.AUTH_USER_MODEL,null=True)
+    
 
     def author_name(self):
         return u'{} {}'.format(self.author.first_name, self.author.last_name)
@@ -52,6 +53,7 @@ class BlogPostVersion(models.Model):
     blog = models.ForeignKey(BlogPost, related_name='versions')
     
     copy = models.TextField()
+    image = FilerImageField(null=True, blank=True, related_name="main_image")
     public = models.BooleanField(default=False)
     published = models.DateTimeField(default=datetime.datetime.now(), verbose_name="Publish Date")
     created = models.DateTimeField(auto_now_add=True)

@@ -15,5 +15,5 @@ class BlogPostForm(forms.ModelForm):
 
     class Meta:
         model = BlogPostVersion
-        fields = ['copy','published']
+        fields = ['copy','published','image']
         widgets = {'published': SelectDateWidget}
